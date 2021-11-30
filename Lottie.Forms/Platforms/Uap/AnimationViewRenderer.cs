@@ -116,8 +116,13 @@ namespace Lottie.Forms.Platforms.Uap
             if (Element.AutoPlay || Element.IsAnimating)
             {
                 await Task.Delay(PlayDelay);
-                _ = _animationView.PlayAsync(0, 1, Element.RepeatMode == RepeatMode.Infinite).AsTask();
-
+                if (_animationView == null || Element == null || e == null)
+                    return;
+                
+                try 
+                { 
+                    _ = _animationView.PlayAsync(0, 1, Element.RepeatMode == RepeatMode.Infinite).AsTask();
+                } catch {}
                 Element.IsAnimating = _animationView.IsPlaying;
                 Element.InvokePlayAnimation();
             }
